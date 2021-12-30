@@ -5,33 +5,33 @@ from models.merchant import Merchant
 
 
 def test_vm():
-    vm = VendingMachine()
-    vm.hello_message()
+    self = VendingMachine()
+    self.hello_message()
 
-    merchant = Merchant(vm)
-    customer = Customer(vm)
+    merchant = Merchant(self)
+    customer = Customer(self)
 
-    products = vm.load_default_config()
+    products = self.load_default_config()
 
     for product in products:
         merchant.add_item(Item(*product))
 
     while True:
-        vm.show_items()
+        self.show_items()
         selected_product = customer.select_product()
         if selected_product is None:
-            vm.return_change()
+            self.return_change()
             break
-        elif selected_product:
+        else:
             print(f"You have selected {selected_product.name}")
-            while vm.is_enough_customer_balance(selected_product.price) is False:
+            while self.is_enough_customer_balance(selected_product.price) is False:
                 try:
                     money = float(
-                        input(f"Please refill {selected_product.price - vm.customer_balance}$: "))
+                        input(f"Please refill {selected_product.price - self.customer_balance}$: "))
                     customer.add_cash(money)
                 except ValueError:
                     continue
-            vm.buy_item(selected_product)
+            self.buy_item(selected_product)
 
 
 test_vm()
