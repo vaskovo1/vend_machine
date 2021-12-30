@@ -33,7 +33,7 @@ class VendingMachine:
     def buy_item(self, selected_product: Item):
         self.remove_item(selected_product)
         self.customer_balance -= selected_product.price
-        self.update_current_capacity()
+        self._update_current_capacity()
         print(f'You got {selected_product.name}')
 
     def remove_item(self, selected_product: Item):
@@ -43,10 +43,10 @@ class VendingMachine:
                     item.amount -= 1
                 else:
                     self.items.pop(self.items.index(selected_product))
-            self.update_current_capacity()
+            self._update_current_capacity()
 
     def add_item(self, item: Item):
-        if self.__is_full():
+        if self._is_full():
             print("There are no room for new snacks")
         else:
             self.items.append(item)
@@ -59,13 +59,13 @@ class VendingMachine:
         self.customer_balance = self.customer_balance + money
         print(f"Your balance is {self.customer_balance}$.")
 
-    def __is_full(self) -> bool:
+    def _is_full(self) -> bool:
         return self.current_capacity == self.max_capacity
 
     def is_empty(self) -> bool:
         return self.current_capacity == 0
 
-    def update_current_capacity(self):
+    def _update_current_capacity(self):
         self.current_capacity = 0
         for item in self.items:
             self.current_capacity += item.amount
@@ -79,7 +79,7 @@ class VendingMachine:
             self.customer_balance = 0
         print('Thank you, have a nice day!')
 
-    def return_available_products_by_code(self) -> list:
+    def return_lists_of_available_product_codes(self) -> list:
         codes_list = []
         for item in self.items:
             codes_list.append(item.code)
